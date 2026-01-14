@@ -91,7 +91,7 @@ cat > "$SCRIPT_DIR/$PLIST_8AM" << EOF
         <key>Hour</key>
         <integer>8</integer>
         <key>Minute</key>
-        <integer>5</integer>
+        <integer>45</integer>
     </dict>
     <key>StandardOutPath</key>
     <string>/tmp/checkin-8am.log</string>
@@ -123,7 +123,7 @@ cat > "$SCRIPT_DIR/$PLIST_12PM" << EOF
         <key>Hour</key>
         <integer>12</integer>
         <key>Minute</key>
-        <integer>5</integer>
+        <integer>45</integer>
     </dict>
     <key>StandardOutPath</key>
     <string>/tmp/checkin-12pm.log</string>
@@ -160,8 +160,8 @@ echo "Setup complete!"
 echo "========================================"
 echo
 echo "Schedule:"
-echo "  - 8AM check-in:  Daily at 8:05 AM"
-echo "  - 12PM check-in: Daily at 12:05 PM"
+echo "  - 8AM check-in:  Daily at 8:45 AM"
+echo "  - 12PM check-in: Daily at 12:45 PM"
 echo
 echo "To test now (dry run):"
 echo "  source venv/bin/activate"
