@@ -7,16 +7,14 @@
     
     <key>ProgramArguments</key>
     <array>
-        <!-- UPDATE THIS PATH to your venv Python -->
-        <string>/Users/YOUR_USERNAME/conference_checkin/venv/bin/python</string>
-        <string>/Users/YOUR_USERNAME/conference_checkin/checkin.py</string>
+        <string>/Users/anderiesbarrett/Documents/GitHub/Automations/conference-sign-in/venv/bin/python</string>
+        <string>/Users/anderiesbarrett/Documents/GitHub/Automations/conference-sign-in/checkin.py</string>
         <string>--time</string>
         <string>8AM</string>
     </array>
     
     <key>WorkingDirectory</key>
-    <!-- UPDATE THIS PATH -->
-    <string>/Users/YOUR_USERNAME/conference_checkin</string>
+    <string>/Users/anderiesbarrett/Documents/GitHub/Automations/conference-sign-in</string>
     
     <key>StartCalendarInterval</key>
     <dict>
