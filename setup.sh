@@ -135,7 +135,9 @@ cat > "$SCRIPT_DIR/config.json" << EOF
     "timezone": "America/Los_Angeles",
     "skip_keywords": ["admin", "wellness"],
     "default_responses": [$LIKERT_RESPONSE, $LIKERT_RESPONSE, $LIKERT_RESPONSE],
-    "comment": ""
+    "comment": "",
+    "confirm_before_submit": true,
+    "confirm_timeout": 30
 }
 EOF
 

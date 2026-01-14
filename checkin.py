@@ -34,6 +34,8 @@ DEFAULT_CONFIG = {
     "skip_keywords": ["admin", "wellness"],
     "default_responses": [5, 5, 5],
     "comment": "",
+    "confirm_before_submit": True,  # Show dialog to confirm/skip check-in
+    "confirm_timeout": 30,  # Seconds to wait before auto-submitting
 }
 
 def load_config() -> dict:
@@ -51,6 +53,37 @@ def notify(title: str, message: str) -> None:
     """Send a macOS notification."""
     script = f'display notification "{message}" with title "{title}"'
     subprocess.run(["osascript", "-e", script], capture_output=True)
+
+
+def confirm_checkin(lecture_time: str, timeout: int = 30) -> bool:
+    """
+    Show a dialog asking user to confirm check-in.
+    Returns True if user clicks 'Sign In' or dialog times out.
+    Returns False if user clicks 'Skip'.
+    """
+    script = f'''
+    try
+        with timeout of {timeout} seconds
+            set response to display dialog "Sign in to {lecture_time} conference?" ¬
+                buttons {{"Skip", "Sign In"}} ¬
+                default button "Sign In" ¬
+                with title "Conference Check-in" ¬
+                giving up after {timeout}
+            if gave up of response then
+                return "timeout"
+            else
+                return button returned of response
+            end if
+        end timeout
+    on error
+        return "timeout"
+    end try
+    '''
+    result = subprocess.run(["osascript", "-e", script], capture_output=True, text=True)
+    response = result.stdout.strip()
+
+    # Sign in if user clicked "Sign In" or if dialog timed out (default behavior)
+    return response != "Skip"
 
 # =============================================================================
 # CALENDAR FUNCTIONS
@@ -342,7 +375,15 @@ def main():
         notify(f"Conference Check-in ({args.time})", "Skipped: No conference today")
         return 0
     
-    # Step 3: Submit the survey
+    # Step 3: Confirm with user (unless dry-run or confirmation disabled)
+    if CONFIG.get("confirm_before_submit", True) and not args.dry_run:
+        print("Waiting for confirmation...")
+        if not confirm_checkin(args.time, CONFIG.get("confirm_timeout", 30)):
+            print("User skipped check-in.")
+            notify(f"Conference Check-in ({args.time})", "Skipped by user")
+            return 0
+
+    # Step 4: Submit the survey
     print("Submitting survey...")
     success = submit_survey(
         name=CONFIG["name"],

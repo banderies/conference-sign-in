@@ -65,11 +65,21 @@ After running `setup.sh`, your settings are stored in `config.json`:
 {
     "name": "Your Name",
     "skip_keywords": ["admin", "wellness"],
-    "default_responses": [5, 5, 5]
+    "default_responses": [5, 5, 5],
+    "confirm_before_submit": true,
+    "confirm_timeout": 30
 }
 ```
 
-Edit this file to change your settings. The `default_responses` are on a 1-5 scale (5 = Strongly Agree).
+| Setting | Description |
+|---------|-------------|
+| `name` | Your name as it appears on the survey |
+| `skip_keywords` | Events containing these words skip check-in |
+| `default_responses` | Likert responses 1-5 (5 = Strongly Agree) |
+| `confirm_before_submit` | Show dialog to confirm/skip before submitting |
+| `confirm_timeout` | Seconds to wait before auto-submitting (default: 30) |
+
+Set `confirm_before_submit` to `false` for fully automatic check-in with no prompts.
 
 ## Troubleshooting
 
