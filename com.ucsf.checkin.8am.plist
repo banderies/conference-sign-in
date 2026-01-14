@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ucsf.checkin.8am</string>
+    
+    <key>ProgramArguments</key>
+    <array>
+        <!-- UPDATE THIS PATH to your venv Python -->
+        <string>/Users/YOUR_USERNAME/conference_checkin/venv/bin/python</string>
+        <string>/Users/YOUR_USERNAME/conference_checkin/checkin.py</string>
+        <string>--time</string>
+        <string>8AM</string>
+    </array>
+    
+    <key>WorkingDirectory</key>
+    <!-- UPDATE THIS PATH -->
+    <string>/Users/YOUR_USERNAME/conference_checkin</string>
+    
+    <key>StartCalendarInterval</key>
+    <dict>
+        <!-- Run at 8:05 AM, Monday-Friday -->
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>5</integer>
+    </dict>
+    
+    <key>StandardOutPath</key>
+    <string>/tmp/checkin-8am.log</string>
+    
+    <key>StandardErrorPath</key>
+    <string>/tmp/checkin-8am.log</string>
+    
+    <!-- Only run on weekdays (launchd doesn't support this directly,
+         so the script handles it via calendar check) -->
+</dict>
+</plist>
