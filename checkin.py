@@ -12,6 +12,7 @@ Usage:
 import argparse
 import json
 import re
+import subprocess
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -44,6 +45,12 @@ def load_config() -> dict:
     return DEFAULT_CONFIG
 
 CONFIG = load_config()
+
+
+def notify(title: str, message: str) -> None:
+    """Send a macOS notification."""
+    script = f'display notification "{message}" with title "{title}"'
+    subprocess.run(["osascript", "-e", script], capture_output=True)
 
 # =============================================================================
 # CALENDAR FUNCTIONS
@@ -322,6 +329,7 @@ def main():
         print(f"  Warning: Could not fetch calendar: {e}")
         if not args.force:
             print("  Use --force to submit anyway.")
+            notify(f"Conference Check-in ({args.time})", f"Failed: Could not fetch calendar")
             return 1
         is_conf = True
         print("  Proceeding anyway due to --force flag.")
@@ -331,6 +339,7 @@ def main():
     # Step 2: Decide whether to submit
     if not is_conf and not args.force:
         print("No conference today. Skipping submission.")
+        notify(f"Conference Check-in ({args.time})", "Skipped: No conference today")
         return 0
     
     # Step 3: Submit the survey
@@ -343,7 +352,13 @@ def main():
         survey_url=CONFIG["survey_url"],
         dry_run=args.dry_run,
     )
-    
+
+    if not args.dry_run:
+        if success:
+            notify(f"Conference Check-in ({args.time})", "Submitted successfully")
+        else:
+            notify(f"Conference Check-in ({args.time})", "Failed: Error during submission")
+
     return 0 if success else 1
 
 
