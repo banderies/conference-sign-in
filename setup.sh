@@ -15,6 +15,81 @@ echo "UCSF Conference Check-in Setup"
 echo "========================================"
 echo
 
+# =============================================================================
+# Prerequisites check
+# =============================================================================
+
+echo "Checking prerequisites..."
+echo
+
+MISSING_PREREQS=0
+
+# Check for macOS
+if [[ "$(uname)" != "Darwin" ]]; then
+    echo "ERROR: This automation only works on macOS (uses launchd for scheduling)."
+    exit 1
+fi
+echo "  [OK] macOS detected"
+
+# Check for Python 3
+if ! command -v python3 &> /dev/null; then
+    echo "  [MISSING] Python 3"
+    MISSING_PREREQS=1
+else
+    PYTHON_VERSION=$(python3 --version 2>&1 | cut -d' ' -f2)
+    echo "  [OK] Python $PYTHON_VERSION"
+fi
+
+# Check for pip
+if ! python3 -m pip --version &> /dev/null 2>&1; then
+    echo "  [MISSING] pip"
+    MISSING_PREREQS=1
+else
+    echo "  [OK] pip"
+fi
+
+# Check for venv module
+if ! python3 -c "import venv" &> /dev/null 2>&1; then
+    echo "  [MISSING] venv module"
+    MISSING_PREREQS=1
+else
+    echo "  [OK] venv module"
+fi
+
+# Check LaunchAgents directory exists
+if [[ ! -d ~/Library/LaunchAgents ]]; then
+    echo "  [INFO] Creating ~/Library/LaunchAgents directory"
+    mkdir -p ~/Library/LaunchAgents
+fi
+echo "  [OK] LaunchAgents directory"
+
+echo
+
+# If missing prerequisites, show installation instructions and exit
+if [[ $MISSING_PREREQS -eq 1 ]]; then
+    echo "========================================"
+    echo "Missing prerequisites!"
+    echo "========================================"
+    echo
+    echo "Please install Python 3 by running:"
+    echo
+    echo "  xcode-select --install"
+    echo
+    echo "This installs the Xcode Command Line Tools, which includes Python 3."
+    echo "After installation completes, run this setup script again."
+    echo
+    echo "Alternatively, install Python from https://www.python.org/downloads/"
+    echo
+    exit 1
+fi
+
+echo "All prerequisites satisfied!"
+echo
+
+# =============================================================================
+# Configuration
+# =============================================================================
+
 # Conference calendar URL (shared by all users)
 CALENDAR_URL="https://calendar.google.com/calendar/ical/ucsfrad%40gmail.com/public/basic.ics"
 
