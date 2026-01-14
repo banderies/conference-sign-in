@@ -1,6 +1,6 @@
 {
     "name": "Your Name",
-    "calendar_url": "https://calendar.google.com/calendar/ical/YOUR_CALENDAR_ID/public/basic.ics",
+    "calendar_url": "https://calendar.google.com/calendar/ical/ucsfrad%40gmail.com/public/basic.ics",
     "survey_url": "https://ucsf.co1.qualtrics.com/jfe/form/SV_8kUOSKMVlxBzCp8",
     "timezone": "America/Los_Angeles",
     "skip_keywords": ["admin", "wellness"],

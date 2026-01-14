@@ -27,7 +27,7 @@ from playwright.sync_api import sync_playwright
 # Default config (used if config.json doesn't exist)
 DEFAULT_CONFIG = {
     "name": "Your Name",
-    "calendar_url": "",
+    "calendar_url": "https://calendar.google.com/calendar/ical/ucsfrad%40gmail.com/public/basic.ics",
     "survey_url": "https://ucsf.co1.qualtrics.com/jfe/form/SV_8kUOSKMVlxBzCp8",
     "timezone": "America/Los_Angeles",
     "skip_keywords": ["admin", "wellness"],

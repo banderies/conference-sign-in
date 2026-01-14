@@ -15,9 +15,11 @@ echo "UCSF Conference Check-in Setup"
 echo "========================================"
 echo
 
+# Conference calendar URL (shared by all users)
+CALENDAR_URL="https://calendar.google.com/calendar/ical/ucsfrad%40gmail.com/public/basic.ics"
+
 # Gather user information
 read -p "Enter your full name (as it appears on the survey): " USER_NAME
-read -p "Enter your Google Calendar ICS URL: " CALENDAR_URL
 
 echo
 echo "Default Likert response (1-5 scale):"

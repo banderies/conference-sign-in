@@ -20,7 +20,7 @@ cd conference-sign-in
 ```
 
 The setup script will:
-- Ask for your name and Google Calendar ICS URL
+- Ask for your name
 - Install Python dependencies and Playwright browser
 - Create your personal config file
 - Install and activate the scheduled tasks
@@ -63,7 +63,6 @@ After running `setup.sh`, your settings are stored in `config.json`:
 ```json
 {
     "name": "Your Name",
-    "calendar_url": "https://calendar.google.com/calendar/ical/.../basic.ics",
     "skip_keywords": ["admin", "wellness"],
     "default_responses": [5, 5, 5]
 }
