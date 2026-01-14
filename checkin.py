@@ -55,16 +55,17 @@ def notify(title: str, message: str) -> None:
     subprocess.run(["osascript", "-e", script], capture_output=True)
 
 
-def confirm_checkin(lecture_time: str, timeout: int = 30) -> bool:
+def confirm_checkin(lecture_time: str, event_name: str, date_str: str, timeout: int = 30) -> bool:
     """
     Show a dialog asking user to confirm check-in.
     Returns True if user clicks 'Sign In' or dialog times out.
     Returns False if user clicks 'Skip'.
     """
+    message = f"Date: {date_str}\\nTime: {lecture_time}\\nConference: {event_name}\\n\\nSign in to this conference?"
     script = f'''
     try
         with timeout of {timeout} seconds
-            set response to display dialog "Sign in to {lecture_time} conference?" ¬
+            set response to display dialog "{message}" ¬
                 buttons {{"Skip", "Sign In"}} ¬
                 default button "Sign In" ¬
                 with title "Conference Check-in" ¬
@@ -378,7 +379,9 @@ def main():
     # Step 3: Confirm with user (unless dry-run or confirmation disabled)
     if CONFIG.get("confirm_before_submit", True) and not args.dry_run:
         print("Waiting for confirmation...")
-        if not confirm_checkin(args.time, CONFIG.get("confirm_timeout", 30)):
+        date_str = datetime.now(tz).strftime("%A, %B %d, %Y")
+        event_name = events[0]["summary"] if events else "Unknown"
+        if not confirm_checkin(args.time, event_name, date_str, CONFIG.get("confirm_timeout", 30)):
             print("User skipped check-in.")
             notify(f"Conference Check-in ({args.time})", "Skipped by user")
             return 0
