@@ -1,6 +1,6 @@
 # UCSF Conference Check-in Automation
 
-Automatically fills out the daily UCSF radiology conference attendance survey based on your calendar.
+Automatically fills out the daily UCSF radiology conference attendance survey based on the conference calendar.
 
 ## How It Works
 
