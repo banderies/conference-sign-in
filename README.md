@@ -4,10 +4,11 @@ Automatically fills out the daily UCSF radiology conference attendance survey ba
 
 ## How It Works
 
-1. Fetches your Google Calendar ICS feed
+1. Fetches the conference Google Calendar ICS feed
 2. Checks if today's event contains "Admin" or "Wellness" (skip keywords)
 3. If it's a conference day, uses Playwright to fill out the Qualtrics survey
 4. Submits with your name, the correct date format, and default responses
+5. Sends a macOS notification with the result (success, skipped, or failure)
 
 The 8AM and 12PM conferences are checked independently based on the event times.
 
@@ -25,7 +26,7 @@ The setup script will:
 - Create your personal config file
 - Install and activate the scheduled tasks
 
-That's it! The automation will run daily at 8:45 AM and 12:45 PM.
+That's it! The automation will run daily at 8:45 AM and 12:45 PM. You'll receive a macOS notification each time it runs.
 
 ## Managing the Automation
 
