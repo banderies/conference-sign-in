@@ -10,8 +10,10 @@ Usage:
 """
 
 import argparse
+import json
 import re
 from datetime import datetime, timedelta
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import requests
@@ -19,25 +21,29 @@ from icalendar import Calendar
 from playwright.sync_api import sync_playwright
 
 # =============================================================================
-# CONFIGURATION - Edit these values
+# CONFIGURATION
 # =============================================================================
 
-CONFIG = {
-    "name": "Barrett Anderies",
-    "calendar_url": "https://calendar.google.com/calendar/ical/ucsfrad%40gmail.com/public/basic.ics",
+# Default config (used if config.json doesn't exist)
+DEFAULT_CONFIG = {
+    "name": "Your Name",
+    "calendar_url": "",
     "survey_url": "https://ucsf.co1.qualtrics.com/jfe/form/SV_8kUOSKMVlxBzCp8",
     "timezone": "America/Los_Angeles",
-    
-    # Events containing these keywords (case-insensitive) = no conference
     "skip_keywords": ["admin", "wellness"],
-    
-    # Default Likert responses (1-5 scale: 1=Strongly Disagree, 5=Strongly Agree)
-    # These correspond to the 3 survey questions
-    "default_responses": [5, 5, 5],  # "Strongly Agree" for all three
-    
-    # Optional comment (leave empty string for none)
+    "default_responses": [5, 5, 5],
     "comment": "",
 }
+
+def load_config() -> dict:
+    """Load configuration from config.json or use defaults."""
+    config_path = Path(__file__).parent / "config.json"
+    if config_path.exists():
+        with open(config_path) as f:
+            return {**DEFAULT_CONFIG, **json.load(f)}
+    return DEFAULT_CONFIG
+
+CONFIG = load_config()
 
 # =============================================================================
 # CALENDAR FUNCTIONS
