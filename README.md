@@ -5,7 +5,7 @@ Automatically fills out the daily UCSF radiology conference attendance survey ba
 ## How It Works
 
 1. Fetches the conference Google Calendar ICS feed
-2. Checks if today's event contains "Admin" or "Wellness" (skip keywords)
+2. Checks if today's event name exactly matches a skip keyword like "Admin", "Wellness", or "Holiday" (case-insensitive)
 3. If it's a conference day, uses Playwright to fill out the Qualtrics survey
 4. Submits with your name, the correct date format, and default responses
 5. Sends a macOS notification with the result (success, skipped, or failure)
@@ -64,7 +64,7 @@ After running `setup.sh`, your settings are stored in `config.json`:
 ```json
 {
     "name": "Your Name",
-    "skip_keywords": ["admin", "wellness"],
+    "skip_keywords": ["admin", "wellness", "holiday", "rsna", "town hall", "orientation", "graduation", "core exam", "in service exam"],
     "default_responses": [5, 5, 5],
     "confirm_before_submit": true,
     "confirm_timeout": 30
@@ -74,7 +74,7 @@ After running `setup.sh`, your settings are stored in `config.json`:
 | Setting | Description |
 |---------|-------------|
 | `name` | Your name as it appears on the survey |
-| `skip_keywords` | Events containing these words skip check-in |
+| `skip_keywords` | Events with names matching exactly (case-insensitive) skip check-in |
 | `default_responses` | Likert responses 1-5 (5 = Strongly Agree) |
 | `confirm_before_submit` | Show dialog to confirm/skip before submitting |
 | `confirm_timeout` | Seconds to wait before auto-submitting (default: 30) |

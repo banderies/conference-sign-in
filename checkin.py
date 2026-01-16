@@ -31,7 +31,7 @@ DEFAULT_CONFIG = {
     "calendar_url": "https://calendar.google.com/calendar/ical/ucsfrad%40gmail.com/public/basic.ics",
     "survey_url": "https://ucsf.co1.qualtrics.com/jfe/form/SV_8kUOSKMVlxBzCp8",
     "timezone": "America/Los_Angeles",
-    "skip_keywords": ["admin", "wellness"],
+    "skip_keywords": ["admin", "wellness", "holiday", "rsna", "town hall", "orientation", "graduation", "core exam", "in service exam"],
     "default_responses": [5, 5, 5],
     "comment": "",
     "confirm_before_submit": True,  # Show dialog to confirm/skip check-in
@@ -160,10 +160,12 @@ def is_conference_day(events: list[dict], skip_keywords: list[str]) -> tuple[boo
         return False, "No events found for today"
     
     for event in events:
-        summary = event["summary"].lower()
+        summary = event["summary"].strip().lower()
         for keyword in skip_keywords:
-            if keyword.lower() in summary:
-                return False, f"Found skip keyword '{keyword}' in event: {event['summary']}"
+            # Match entire event name only (case-insensitive)
+            # e.g., "wellness" skips "WELLNESS" but not "Wellness in Radiology"
+            if summary == keyword.lower():
+                return False, f"Skipping event '{event['summary']}' (matches skip keyword '{keyword}')"
     
     # If we get here, there are events and none contain skip keywords
     event_names = ", ".join(e["summary"] for e in events)

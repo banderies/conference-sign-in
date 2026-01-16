@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-This is a Python automation that fills out a UCSF radiology conference attendance Qualtrics survey. It fetches the conference Google Calendar ICS feed, checks if today is a conference day (by looking for skip keywords like "admin" or "wellness"), submits the survey via Playwright browser automation, and sends a macOS notification with the result.
+This is a Python automation that fills out a UCSF radiology conference attendance Qualtrics survey. It fetches the conference Google Calendar ICS feed, checks if today is a conference day (by checking if the event name exactly matches a skip keyword like "admin" or "wellness"), submits the survey via Playwright browser automation, and sends a macOS notification with the result.
 
 ## Commands
 
@@ -32,7 +32,7 @@ python checkin.py --time 8AM --force
 Single-file script (`checkin.py`) with main sections:
 
 1. **Configuration**: Loaded from `config.json` (user-specific settings like name and Likert responses). Calendar URL is hardcoded since it's shared.
-2. **Calendar functions**: Fetch ICS feed, parse today's events filtered by time slot (8AM or 12PM), determine if it's a conference day based on skip keywords
+2. **Calendar functions**: Fetch ICS feed, parse today's events filtered by time slot (8AM or 12PM), determine if it's a conference day (skip if event name exactly matches a skip keyword, case-insensitive)
 3. **Form submission** (`submit_survey`): Playwright automation that navigates a 2-page Qualtrics form - page 1 collects name and conference type, page 2 collects date, time slot, three Likert questions, and optional comment
 4. **Notifications** (`notify`): Sends macOS notifications via `osascript` for success, skip, or failure
 

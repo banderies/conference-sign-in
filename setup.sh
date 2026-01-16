@@ -197,7 +197,7 @@ cat > "$CONFIG_FILE" << EOF
     "calendar_url": "$CALENDAR_URL",
     "survey_url": "https://ucsf.co1.qualtrics.com/jfe/form/SV_8kUOSKMVlxBzCp8",
     "timezone": "America/Los_Angeles",
-    "skip_keywords": ["admin", "wellness"],
+    "skip_keywords": ["admin", "wellness", "holiday", "rsna", "town hall", "orientation", "graduation", "core exam", "in service exam"],
     "default_responses": [$LIKERT_RESPONSE, $LIKERT_RESPONSE, $LIKERT_RESPONSE],
     "comment": "",
     "confirm_before_submit": $CONFIRM_BEFORE_SUBMIT,
